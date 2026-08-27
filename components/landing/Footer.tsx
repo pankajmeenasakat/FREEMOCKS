@@ -23,8 +23,8 @@ export const Footer: React.FC = () => {
 
             <div className="space-y-1 text-slate-400">
               <div className="font-semibold text-slate-200">Freemocks Assessment Technologies Pvt. Ltd.</div>
-              <div>D-1, Sector 62, Electronic City,</div>
-              <div>Noida, Uttar Pradesh, India - 201309</div>
+              <div>Alwar, Rajasthan,</div>
+              <div>India - 301001</div>
             </div>
 
             <div className="space-y-1 text-slate-400 pt-1">

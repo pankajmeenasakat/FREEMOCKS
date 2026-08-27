@@ -46,9 +46,7 @@ export const Navbar: React.FC = () => {
               </div>
             </div>
 
-            <Link href="/dashboard" className="px-3 py-2 rounded-md hover:bg-slate-100 hover:text-blue-600 transition-colors">
-              SuperCoaching
-            </Link>
+
             <Link href="/dashboard/test-series" className="px-3 py-2 rounded-md text-blue-600 font-semibold bg-blue-50 transition-colors">
               Test Series
             </Link>
