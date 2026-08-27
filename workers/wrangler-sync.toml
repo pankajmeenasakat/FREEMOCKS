@@ -1,0 +1,7 @@
+name = "freemocks-exam-sync"
+main = "exam-sync.ts"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "EXAM_KV"
+id = "b4eb215c5eab4fa2ad480c30e9c5fa4d"
