@@ -5,9 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Home,
-  GraduationCap,
-  Video,
-  BookOpen,
   FileText,
   Radio,
   FileSpreadsheet,
@@ -27,10 +24,6 @@ export const DashboardSidebar: React.FC = () => {
 
   const navItems = [
     { label: "Home", href: "/dashboard", icon: Home },
-    { section: "LEARN" },
-    { label: "SuperCoaching", href: "/dashboard", icon: GraduationCap },
-    { label: "Live Classes", href: "/dashboard", icon: Video, badge: "FREE", badgeColor: "bg-emerald-600 text-white" },
-    { label: "Books", href: "/dashboard", icon: BookOpen },
     { section: "TESTS" },
     { label: "Test Series", href: "/dashboard/test-series", icon: FileText, active: true },
     { label: "Live Tests & Quizzes", href: "/dashboard", icon: Radio },
