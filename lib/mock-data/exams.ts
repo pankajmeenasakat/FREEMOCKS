@@ -33,6 +33,7 @@ export interface TestSeriesItem {
   completedTests?: number;
   badge?: string;
   logo: string;
+  comingSoon?: boolean;
 }
 
 export interface SectionalTestItem {
@@ -108,6 +109,7 @@ export const POPULAR_TEST_SERIES: TestSeriesItem[] = [
       "+107 Full Syllabus Mock Tests"
     ],
     logo: "🏛️",
+    comingSoon: true,
   },
   {
     id: "current-affairs-2026",
@@ -125,6 +127,7 @@ export const POPULAR_TEST_SERIES: TestSeriesItem[] = [
       "+442 Monthly & Daily Speed Quizzes"
     ],
     logo: "📰",
+    comingSoon: true,
   },
   {
     id: "rrb-group-d-2026",
@@ -142,6 +145,7 @@ export const POPULAR_TEST_SERIES: TestSeriesItem[] = [
       "+2060 Sectional & Chapter Tests"
     ],
     logo: "🚆",
+    comingSoon: true,
   },
   {
     id: "ctet-paper-1-2",
@@ -158,6 +162,7 @@ export const POPULAR_TEST_SERIES: TestSeriesItem[] = [
       "35 Full Length Mocks"
     ],
     logo: "🎓",
+    comingSoon: true,
   },
   {
     id: "rrb-technician-grade-3",
@@ -175,6 +180,7 @@ export const POPULAR_TEST_SERIES: TestSeriesItem[] = [
       "+425 Sectional Quizzes"
     ],
     logo: "🚆",
+    comingSoon: true,
   },
 ];
 

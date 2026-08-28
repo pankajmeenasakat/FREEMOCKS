@@ -70,13 +70,23 @@ export default function TestSeriesCatalogPage() {
           })}
         </div>
 
-        {/* Right Cards Grid (Ref Image 6) */}
+        {/* Right Cards Grid */}
         <div className="lg:col-span-9 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filteredSeries.map((series) => (
-              <TestSeriesCard key={series.id} series={series} />
-            ))}
-          </div>
+          {filteredSeries.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-slate-200 text-center px-6">
+              <div className="text-5xl mb-4">🚧</div>
+              <h3 className="text-lg font-extrabold text-slate-800 mb-1">Coming Soon!</h3>
+              <p className="text-sm text-slate-500 max-w-sm">
+                We're working hard to upload tests for this category. Check back soon — new mock tests are being added every day!
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredSeries.map((series) => (
+                <TestSeriesCard key={series.id} series={series} />
+              ))}
+            </div>
+          )}
         </div>
 
       </div>
