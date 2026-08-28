@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Search, ChevronDown, Languages, Sparkles } from "lucide-react";
+import { Search, ChevronDown, Sparkles } from "lucide-react";
 
 export const Navbar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentLang, setCurrentLang] = useState<"EN" | "HI">("EN");
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
@@ -73,16 +72,8 @@ export const Navbar: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Actions: Language Switcher + Get Started */}
+        {/* Right Actions */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setCurrentLang(currentLang === "EN" ? "HI" : "EN")}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-md border border-slate-200 transition-colors"
-            title="Toggle Hindi/English interface"
-          >
-            <Languages className="w-4 h-4 text-blue-600" />
-            <span>{currentLang === "EN" ? "अ / A" : "A / अ"}</span>
-          </button>
 
           <Link
             href="/login"
