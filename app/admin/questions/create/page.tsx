@@ -45,23 +45,22 @@ export default function AdminQuestionCreatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
         
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
-              href="/dashboard"
-              className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-slate-900 shadow-xs"
+              href="/admin/tests"
+              className="p-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 hover:text-white"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                Bilingual Question Creator & CMS
+              <h1 className="text-xl sm:text-2xl font-extrabold text-white">
+                Bilingual Question Creator &amp; CMS
               </h1>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-400">
                 Add bilingual questions with real-time KaTeX math equations preview
               </p>
             </div>
@@ -341,7 +340,6 @@ export default function AdminQuestionCreatePage() {
 
         </div>
 
-      </div>
     </div>
   );
 }
