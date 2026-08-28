@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Save, CheckCircle2, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { createTest } from "../actions";
 
 const EXAM_CATEGORIES_LIST = [
   "SSC Exams",
@@ -19,17 +20,18 @@ const EXAM_CATEGORIES_LIST = [
 export default function AdminCreateTestPage() {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     title: "",
-    examName: "",
+    exam_name: "",
     category: "SSC Exams",
-    totalTests: "",
-    freeTests: "",
-    durationMinutes: "60",
-    totalMarks: "200",
-    totalQuestions: "100",
+    total_tests: "",
+    free_tests: "",
+    duration_seconds: "3600",
+    total_marks: "200",
+    total_questions: "100",
     languages: ["English", "Hindi"],
     features: ["", "", "", ""],
     logo: "🏛️",
@@ -42,14 +44,30 @@ export default function AdminCreateTestPage() {
     setForm((prev) => ({ ...prev, features: f }));
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setLoading(true);
-    setTimeout(() => {
+    try {
+      await createTest({
+        title: form.title,
+        exam_name: form.exam_name,
+        category: form.category,
+        total_tests: Number(form.total_tests),
+        free_tests: Number(form.free_tests),
+        duration_seconds: Number(form.duration_seconds),
+        total_marks: Number(form.total_marks),
+        total_questions: Number(form.total_questions),
+        languages: form.languages,
+        features: form.features.filter(Boolean),
+        logo: form.logo,
+      });
       setSaved(true);
-      setLoading(false);
       setTimeout(() => router.push("/admin/tests"), 1500);
-    }, 800);
+    } catch (err: any) {
+      setError(err.message ?? "Failed to save. Check Supabase credentials.");
+      setLoading(false);
+    }
   };
 
   const logoOptions = ["🏛️", "🚆", "🎓", "📰", "💼", "🛡️", "⚙️", "📊"];
@@ -64,14 +82,21 @@ export default function AdminCreateTestPage() {
         </Link>
         <div>
           <h1 className="text-xl font-extrabold text-white">Create New Test</h1>
-          <p className="text-xs text-slate-400">Add a new exam / test series to the platform</p>
+          <p className="text-xs text-slate-400">Saved directly to Supabase — reflects on website instantly</p>
         </div>
       </div>
 
       {saved && (
         <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-semibold px-4 py-3 rounded-xl">
           <CheckCircle2 className="w-4 h-4" />
-          Test created! Redirecting to tests list...
+          Test saved to database! Redirecting...
+        </div>
+      )}
+
+      {error && (
+        <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          {error}
         </div>
       )}
 
@@ -121,8 +146,8 @@ export default function AdminCreateTestPage() {
                 required
                 type="text"
                 placeholder="e.g. SSC CGL"
-                value={form.examName}
-                onChange={(e) => update("examName", e.target.value)}
+                value={form.exam_name}
+                onChange={(e) => update("exam_name", e.target.value)}
                 className="w-full px-3 py-2.5 text-sm bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
@@ -140,15 +165,15 @@ export default function AdminCreateTestPage() {
           </div>
         </div>
 
-        {/* Test Numbers */}
+        {/* Test Structure */}
         <div className="bg-[#181D24] border border-slate-800 rounded-xl p-6 space-y-5">
           <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Test Structure</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { label: "Total Tests", key: "totalTests", placeholder: "2348" },
-              { label: "Free Tests", key: "freeTests", placeholder: "68" },
-              { label: "Duration (mins)", key: "durationMinutes", placeholder: "60" },
-              { label: "Total Marks", key: "totalMarks", placeholder: "200" },
+              { label: "Total Tests", key: "total_tests", placeholder: "100" },
+              { label: "Free Tests", key: "free_tests", placeholder: "5" },
+              { label: "Duration (secs)", key: "duration_seconds", placeholder: "3600" },
+              { label: "Total Marks", key: "total_marks", placeholder: "200" },
             ].map((field) => (
               <div key={field.key}>
                 <label className="block text-xs font-bold text-slate-300 mb-1.5">{field.label}</label>
@@ -173,7 +198,7 @@ export default function AdminCreateTestPage() {
               <label className="block text-xs font-bold text-slate-500 mb-1.5">Feature {i + 1}</label>
               <input
                 type="text"
-                placeholder={["e.g. 5 Live Tests (All India Ranking)", "e.g. 139 PYQ Live Tests", "e.g. 22 Tricky Quant Solutions", "e.g. +2182 Subject & Chapter Tests"][i]}
+                placeholder={["e.g. 5 Live Tests (All India Ranking)", "e.g. 139 PYQ Tests", "e.g. 22 Tricky Quant Solutions", "e.g. +500 Chapter Tests"][i]}
                 value={feat}
                 onChange={(e) => updateFeature(i, e.target.value)}
                 className="w-full px-3 py-2.5 text-sm bg-slate-900 border border-slate-700 text-white placeholder:text-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
@@ -186,7 +211,7 @@ export default function AdminCreateTestPage() {
         <div className="flex items-center gap-3">
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || saved}
             className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-lg transition-all"
           >
             {loading ? (
@@ -197,7 +222,7 @@ export default function AdminCreateTestPage() {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            {loading ? "Saving..." : "Save Test"}
+            {loading ? "Saving to Supabase..." : "Save Test"}
           </button>
           <Link href="/admin/tests" className="text-xs text-slate-500 hover:text-slate-300 font-medium">
             Cancel
