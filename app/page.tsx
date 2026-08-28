@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import { AnnouncementBar } from "../components/landing/AnnouncementBar";
+import React from "react";
 import { Navbar } from "../components/landing/Navbar";
 import { HeroSection } from "../components/landing/HeroSection";
 import { MetricsSection } from "../components/landing/MetricsSection";
@@ -11,14 +10,8 @@ import { TestSeriesSection } from "../components/landing/TestSeriesSection";
 import { Footer } from "../components/landing/Footer";
 
 export default function LandingPage() {
-  const [showAnnouncement, setShowAnnouncement] = useState(true);
-
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* 1. Announcement Strip */}
-      {showAnnouncement && (
-        <AnnouncementBar onClose={() => setShowAnnouncement(false)} />
-      )}
 
       {/* 2. Main Navigation Bar (Ref Image 1) */}
       <Navbar />
