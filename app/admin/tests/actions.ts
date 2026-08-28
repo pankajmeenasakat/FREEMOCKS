@@ -1,6 +1,6 @@
 "use server";
 
-import { supabaseAdmin } from "../../../lib/supabase-admin";
+import { getSupabaseAdmin } from "../../../lib/supabase-admin";
 import { revalidatePath } from "next/cache";
 
 export interface TestRow {
@@ -22,30 +22,42 @@ export interface TestRow {
 
 // ─── READ ────────────────────────────────────────────────
 export async function getAllTestsForAdmin(): Promise<TestRow[]> {
-  const { data, error } = await supabaseAdmin
-    .from("tests_catalog")
-    .select("*")
-    .order("created_at", { ascending: false });
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    const { data, error } = await supabaseAdmin
+      .from("tests_catalog")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-  if (error) {
-    console.error("getAllTestsForAdmin error:", error.message);
+    if (error) {
+      console.error("getAllTestsForAdmin error:", error.message);
+      return [];
+    }
+    return data ?? [];
+  } catch (err: any) {
+    console.error("getAllTestsForAdmin failed:", err.message);
     return [];
   }
-  return data ?? [];
 }
 
 export async function getPublishedTests(): Promise<TestRow[]> {
-  const { data, error } = await supabaseAdmin
-    .from("tests_catalog")
-    .select("*")
-    .eq("is_published", true)
-    .order("created_at", { ascending: false });
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    const { data, error } = await supabaseAdmin
+      .from("tests_catalog")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
 
-  if (error) {
-    console.error("getPublishedTests error:", error.message);
+    if (error) {
+      console.error("getPublishedTests error:", error.message);
+      return [];
+    }
+    return data ?? [];
+  } catch (err: any) {
+    console.error("getPublishedTests failed:", err.message);
     return [];
   }
-  return data ?? [];
 }
 
 // ─── CREATE ──────────────────────────────────────────────
@@ -62,6 +74,7 @@ export async function createTest(formData: {
   features: string[];
   logo: string;
 }) {
+  const supabaseAdmin = getSupabaseAdmin();
   const { error } = await supabaseAdmin
     .from("tests_catalog")
     .insert({ ...formData, is_published: false });
@@ -74,6 +87,7 @@ export async function createTest(formData: {
 
 // ─── PUBLISH / UNPUBLISH ─────────────────────────────────
 export async function togglePublishTest(id: string, publish: boolean) {
+  const supabaseAdmin = getSupabaseAdmin();
   const { error } = await supabaseAdmin
     .from("tests_catalog")
     .update({ is_published: publish })
@@ -87,6 +101,7 @@ export async function togglePublishTest(id: string, publish: boolean) {
 
 // ─── DELETE ──────────────────────────────────────────────
 export async function deleteTest(id: string) {
+  const supabaseAdmin = getSupabaseAdmin();
   const { error } = await supabaseAdmin
     .from("tests_catalog")
     .delete()

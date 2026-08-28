@@ -1,6 +1,6 @@
 "use server";
 
-import { supabaseAdmin } from "../../../lib/supabase-admin";
+import { getSupabaseAdmin } from "../../../lib/supabase-admin";
 import { revalidatePath } from "next/cache";
 
 export async function saveQuestion(formData: {
@@ -14,6 +14,7 @@ export async function saveQuestion(formData: {
   correct_option_id: string;
   scoring: { positive: number; negative: number };
 }) {
+  const supabaseAdmin = getSupabaseAdmin();
   const { error } = await supabaseAdmin
     .from("questions")
     .insert(formData);
@@ -23,11 +24,16 @@ export async function saveQuestion(formData: {
 }
 
 export async function getTestsForDropdown() {
-  const { data, error } = await supabaseAdmin
-    .from("tests_catalog")
-    .select("id, title, exam_name")
-    .order("created_at", { ascending: false });
+  try {
+    const supabaseAdmin = getSupabaseAdmin();
+    const { data, error } = await supabaseAdmin
+      .from("tests_catalog")
+      .select("id, title, exam_name")
+      .order("created_at", { ascending: false });
 
-  if (error) return [];
-  return data ?? [];
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
 }
